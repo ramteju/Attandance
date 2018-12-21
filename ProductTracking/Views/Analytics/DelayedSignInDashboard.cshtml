@@ -1,0 +1,309 @@
+﻿
+@{
+    ViewBag.Title = "Delayed Sign In Dashboard";
+}
+@section head{
+    <style>
+        #reportrange {
+            background: #fff;
+            cursor: pointer;
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            width: 100%;
+        }
+
+            #reportrange b {
+                margin-top: 8px;
+                float: right;
+            }
+    </style>
+
+}
+
+@section heading{
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            @ViewBag.Title
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">@ViewBag.Title</li>
+        </ol>
+    </section>
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-info">
+            <div class="box-header">
+                <i class="ion ion-funnel"></i>
+                <h3 class="box-title">Filters </h3>
+                <div class="pull-right box-tools">
+                    <button class="btn btn-info btn-xs mr-10" data-widget="collapse" data-toggle="tooltip" title="Click for filter the data"><i class="ion ion-funnel"></i></button>
+                    <button class="btn btn-info btn-xs search-controls-box-btn pull-right" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse"><i class="fa fa-minus"></i></button>
+                </div><!-- /. tools -->
+            </div>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-3 col-sm-6 col-lg-3 col-xs-12">
+                        <select class="form-control select2" multiple>
+                            <option value="">Select E1</option>
+                            <option value="">Select L1</option>
+                            <option value="">Select G1</option>
+                            <option value="">Select G2</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-lg-3 col-xs-12">
+                        <select class="form-control select2" multiple>
+                            <option value="">Morning</option>
+                            <option value="">General</option>
+                            <option value="">Night</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-lg-3 col-xs-12">
+                        <div id="reportrange" class="pull-right form-control">
+                            <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+                            <span></span> <b class="caret"></b>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.box-body-->
+
+        </div>
+    </div>
+</div>
+<!-- Info boxes -->
+<div class="row">
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+            <span class="info-box-icon bg-aqua"><i class="ion ion-android-people"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Total Emp. checkin  after 9:30</span>
+                <span class="info-box-number">50</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+            <span class="info-box-icon bg-yellow"><i class="ion ion-android-people"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">checkin  after 10:00</span>
+                <span class="info-box-number">60</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <!-- fix for small devices only -->
+    <div class="clearfix visible-sm-block"></div>
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+            <span class="info-box-icon bg-orange"><i class="ion ion-android-people"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">checkin  after 10:30</span>
+                <span class="info-box-number">20</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+            <span class="info-box-icon bg-green"><i class="ion ion-android-people"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">checkin  after 11:00</span>
+                <span class="info-box-number">50</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+</div>
+<!-- /.row -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-info">
+            <div class="box-header">
+                <i class="fa fa-hourglass-start"></i>
+                <h3 class="box-title">Total Organization Late Check in</h3>
+                <div class="pull-right box-tools">
+                    <button class="btn btn-info btn-xs" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse"><i class="fa fa-minus"></i></button>
+                </div><!-- /. tools -->
+            </div>
+            <div class="box-body">
+                <div id="TreeGraph"></div>
+            </div>
+            <!-- /.box-body-->
+
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Content/App/js/heatmap.js"></script>
+    <script src="~/Content/App/js/treemap.js"></script>
+    <script>
+        $(function () {
+
+            var start = moment().subtract(29, 'days');
+            var end = moment();
+
+            function cb(start, end) {
+                $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            }
+
+            $('#reportrange').daterangepicker({
+                startDate: start,
+                endDate: end,
+                ranges: {
+                    'Today': [moment(), moment()],
+                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                }
+            }, cb);
+
+            cb(start, end);
+
+
+
+
+var data = {
+    'Pharma Analytics': {
+            'Bio IT': {
+                'L1': '30',
+                'M1': '8',
+                'P1': '5'
+            },            
+            },
+    'Chemistry Data Services': {
+        'CAS': {
+            'L1': '3',
+            'M1': '80',
+            'P1': '50'
+        },
+            },
+    'Clinical Data Services': {
+        'QS': {
+            'L1': '3',
+            'M1': '80',
+            'P1': '50'
+        },
+           
+            },
+    'Finance and Legal': {
+        'ES': {
+            'L1': '3',
+            'M1': '80',
+            'P1': '50'
+        },
+            },
+            },
+    points = [],
+    regionP,
+    regionVal,
+    regionI = 0,
+    countryP,
+    countryI,
+    causeP,
+    causeI,
+    region,
+    country,
+    cause,
+    causeName = {
+        'L1': 'L1',
+        'M1': 'M1',
+        'P1': 'P1'
+    };
+
+            for (region in data) {
+                if (data.hasOwnProperty(region)) {
+                    regionVal = 0;
+                    regionP = {
+                        id: 'id_' + regionI,
+                        name: region,
+                        color: Highcharts.getOptions().colors[regionI]
+                    };
+                    countryI = 0;
+                    for (country in data[region]) {
+                        if (data[region].hasOwnProperty(country)) {
+                            countryP = {
+                                id: regionP.id + '_' + countryI,
+                                name: country,
+                                parent: regionP.id
+                            };
+                            points.push(countryP);
+                            causeI = 0;
+                            for (cause in data[region][country]) {
+                                if (data[region][country].hasOwnProperty(cause)) {
+                                    causeP = {
+                                        id: countryP.id + '_' + causeI,
+                                        name: causeName[cause],
+                                        parent: countryP.id,
+                                        value: Math.round(+data[region][country][cause])
+                                    };
+                                    regionVal += causeP.value;
+                                    points.push(causeP);
+                                    causeI = causeI + 1;
+                                }
+                            }
+                            countryI = countryI + 1;
+                        }
+                    }
+                    regionP.value = Math.round(regionVal / countryI);
+                    points.push(regionP);
+                    regionI = regionI + 1;
+                }
+            }
+            Highcharts.chart('TreeGraph', {
+                series: [{
+                    type: 'treemap',
+                    layoutAlgorithm: 'squarified',
+                    allowDrillToNode: true,
+                    animationLimit: 1000,
+                    dataLabels: {
+                        enabled: false
+                    },
+                    levelIsConstant: false,
+                    levels: [{
+                        level: 1,
+                        dataLabels: {
+                            enabled: true
+                        },
+                        borderWidth: 3
+                    }],
+                    data: points
+                }],
+                subtitle: {
+                    text: 'Click points to drill down'
+                },
+                title: {
+                    text: 'Delayed Check in User count'
+                }
+            });
+
+
+
+
+
+
+            $(document).on("click", "#filter-btn", function () {
+                $("#loadingDiv").show();
+                $(".search-controls-box-btn").click();
+                $("#loadingDiv").delay().hide();
+            });
+
+        });
+    </script>
+}
+

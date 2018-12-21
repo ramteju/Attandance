@@ -1,0 +1,61 @@
+﻿@using ProductTracking.Models
+@model LoginModel
+@{
+    ViewBag.Title = "Log in";
+}
+
+@section head{
+    <style>
+        body {
+            background: url(@Url.Content("~/Content/App/images/excelra_identity.jpg")) no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+        }
+        .form-inline{
+        float:right;
+        }
+        #loginArea{
+        background-color:#f4f4f2;
+        }
+    </style>
+}
+
+
+<div class="row" style="padding-top:10px;">
+    <div class="col-md-12" style="padding-top:10px" id="loginArea">
+        <section id="loginForm">
+            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-inline", role = "form" }))
+            {
+                @Html.AntiForgeryToken()<div class="form-group">
+                    <div class="col-md-12">
+                        <h4>Enter username and password to continue . .</h4>
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", placeholder = "Domain Username" })
+                        @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Domain Password" })
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Log in" class="btn btn-primary" />
+                    </div>
+                </div>
+            }
+        </section>
+    </div>
+</div>
+
+@*@section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }*@

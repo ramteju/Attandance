@@ -1,0 +1,900 @@
+﻿
+@{
+    ViewBag.Title = "Comparison Dashboard";
+}
+@section head{
+    <style>
+        #reportrange {
+            background: #fff;
+            cursor: pointer;
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            width: 100%;
+        }
+
+            #reportrange b {
+                margin-top: 8px;
+                float: right;
+            }
+    </style>
+}
+
+@section heading{
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            @ViewBag.Title
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">@ViewBag.Title</li>
+        </ol>
+    </section>
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-info">
+            <div class="box-header">
+                <i class="ion ion-funnel"></i>
+                <h3 class="box-title">Filters </h3>
+                <div class="pull-right box-tools">
+                    <button class="btn btn-info btn-xs mr-10" data-widget="collapse" data-toggle="tooltip" title="Click for filter the data"><i class="ion ion-funnel"></i></button>
+                    <button class="btn btn-info btn-xs search-controls-box-btn pull-right" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse"><i class="fa fa-minus"></i></button>
+                </div><!-- /. tools -->
+            </div>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-3 col-sm-6 col-lg-3 col-xs-12">
+                        <select class="form-control select2" multiple>
+                            <option value="">Select BU1</option>
+                            <option value="">Select BU2</option>
+                            <option value="">Select BU3</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-3 col-sm-6 col-lg-3 col-xs-12">
+                        <select class="form-control select2" multiple>
+                            <option value="">Morning</option>
+                            <option value="">General</option>
+                            <option value="">Night</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-lg-3 col-xs-12">
+                        <div id="reportrange" class="pull-right form-control">
+                            <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+                            <span></span> <b class="caret"></b>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.box-body-->
+
+        </div>
+    </div>
+</div>
+<!-- Info boxes -->
+<div class="row hidden">
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+            <span class="info-box-icon bg-aqua"><i class="ion ion-android-people"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Total Emp. Attended</span>
+                <span class="info-box-number">500</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+            <span class="info-box-icon bg-yellow"><i class="ion ion-android-people"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Total Emp. on Leave</span>
+                <span class="info-box-number">60</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <!-- fix for small devices only -->
+    <div class="clearfix visible-sm-block"></div>
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+            <span class="info-box-icon bg-orange"><i class="ion ion-android-people"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Total Emp. Work from Home</span>
+                <span class="info-box-number">20</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+            <span class="info-box-icon bg-green"><i class="ion ion-android-people"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Total 2 hours Permission Requests</span>
+                <span class="info-box-number">50</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+</div>
+<!-- /.row -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-info">
+            <div class="box-header">
+                <i class="fa fa-hourglass-start"></i>
+                <h3 class="box-title">Being On Time Comparison by BU's </h3>
+                <div class="pull-right box-tools">
+                    <button class="btn btn-info btn-xs" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse"><i class="fa fa-minus"></i></button>
+                </div><!-- /. tools -->
+            </div>
+            <div class="box-body">
+                <div id="IntimeChartComparison"></div>
+            </div>
+            <!-- /.box-body-->
+
+        </div>
+    </div>
+</div>
+
+<!-- /.row -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-info">
+            <div class="box-header">
+                <i class="fa fa-hourglass-start"></i>
+                <h3 class="box-title">Spending hours Comparison by BU's </h3>
+                <div class="pull-right box-tools">
+                    <button class="btn btn-info btn-xs" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse"><i class="fa fa-minus"></i></button>
+                </div><!-- /. tools -->
+            </div>
+            <div class="box-body">
+                <div id="SpendingHoursChartComparison"></div>
+            </div>
+            <!-- /.box-body-->
+
+        </div>
+    </div>
+</div>
+
+
+<!-- /.row -->
+<div class="row">
+    <div class="col-md-6">
+        <div class="box box-info">
+            <div class="box-header">
+                <i class="fa fa-hourglass-start"></i>
+                <h3 class="box-title">Total Organization Effort</h3>
+                <div class="pull-right box-tools">
+                    <button class="btn btn-info btn-xs" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse"><i class="fa fa-minus"></i></button>
+                </div><!-- /. tools -->
+            </div>
+            <div class="box-body">
+                <div id="IntimeChart"></div>
+            </div>
+            <!-- /.box-body-->
+
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="box box-primary">
+            <div class="box-header">
+                <i class="fa fa fa-hourglass"></i>
+                <h3 class="box-title">Total Leave</h3>
+                <div class="pull-right box-tools">
+                    <button class="btn btn-info btn-xs" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse"><i class="fa fa-minus"></i></button>
+                </div><!-- /. tools -->
+            </div>
+            <div class="box-body">
+                <div id="IntimeVsLateChart"></div>
+            </div>
+            <!-- /.box-body-->
+
+        </div>
+    </div>
+</div>
+
+<!-- /.row -->
+<div class="row">
+    <div class="col-md-6">
+        <div class="box box-info">
+            <div class="box-header">
+                <i class="fa fa-hourglass-start"></i>
+                <h3 class="box-title">Total Organization Effort Group by Levels</h3>
+                <div class="pull-right box-tools">
+                    <button class="btn btn-info btn-xs" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse"><i class="fa fa-minus"></i></button>
+                </div><!-- /. tools -->
+            </div>
+            <div class="box-body">
+                <div id="IntimeChartlevelEffort"></div>
+            </div>
+            <!-- /.box-body-->
+
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="box box-primary">
+            <div class="box-header">
+                <i class="fa fa fa-hourglass"></i>
+                <h3 class="box-title">Total Leave Group by Levels</h3>
+                <div class="pull-right box-tools">
+                    <button class="btn btn-info btn-xs" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse"><i class="fa fa-minus"></i></button>
+                </div><!-- /. tools -->
+            </div>
+            <div class="box-body">
+                <div id="IntimeVsLateChartLevelLeave"></div>
+            </div>
+            <!-- /.box-body-->
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<!-- /.row -->
+<div class="row">
+    <div class="col-md-6">
+        <div class="box box-info">
+            <div class="box-header">
+                <i class="fa fa-hourglass-start"></i>
+                <h3 class="box-title">Total WFH Effort vs BUs</h3>
+                <div class="pull-right box-tools">
+                    <button class="btn btn-info btn-xs" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse"><i class="fa fa-minus"></i></button>
+                </div><!-- /. tools -->
+            </div>
+            <div class="box-body">
+                <div id="WhsChart"></div>
+            </div>
+            <!-- /.box-body-->
+
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="box box-info">
+            <div class="box-header">
+                <i class="fa fa-hourglass-start"></i>
+                <h3 class="box-title">Total WFH Effort vs Levels</h3>
+                <div class="pull-right box-tools">
+                    <button class="btn btn-info btn-xs" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse"><i class="fa fa-minus"></i></button>
+                </div><!-- /. tools -->
+            </div>
+            <div class="box-body">
+                <div id="WhsChartLevels"></div>
+            </div>
+            <!-- /.box-body-->
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+@section scripts{
+    <script>
+        $(function () {
+
+            var start = moment().subtract(29, 'days');
+            var end = moment();
+
+            function cb(start, end) {
+                $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            }
+
+            $('#reportrange').daterangepicker({
+                startDate: start,
+                endDate: end,
+                ranges: {
+                    'Today': [moment(), moment()],
+                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                }
+            }, cb);
+
+            cb(start, end);
+
+            $.ajax({
+                url: "@Url.Action("OrganizationEffortDashboardBUs", "Analytics")",
+                dataType: "json",
+                success: function (result) {
+                    var categories =result[0];
+                    var bu1 = result[1];
+                    var bu2 = result[2];
+                    var bu3 = result[3];
+                    var bu4 =result[4];
+                    var bu5 = result[5];
+                    var bu6 = result[6];
+
+
+                    $('#IntimeChart').highcharts({
+                        chart: {
+                            type: 'column'
+                        },
+                        title: {
+                            text: 'Working hours Vs BUs'
+                        },
+                        subtitle: {
+                            text: ''
+                        },
+                        xAxis: {
+                            categories: categories,
+                            crosshair: true
+                        },
+                        yAxis: {
+                            min: 0,
+                            title: {
+                                text: 'Hours Count'
+                            }
+                        },
+                        tooltip: {
+                            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                                '<td style="padding:0"><b>{point.y}</b></td></tr>',
+                            footerFormat: '</table>',
+                            shared: true,
+                            useHTML: true
+                        },
+                        plotOptions: {
+                            column: {
+                                pointPadding: 0.2,
+                                borderWidth: 0
+                            }
+                        },
+                        series:
+                            [
+                                {
+                                    name: 'Bu1',
+                                    data: bu1
+
+                                }, {
+                                    name: 'Bu2',
+                                    data: bu2
+                                },
+                                 {
+                                     name: 'Bu3',
+                                     data: bu3
+
+                                 }, {
+                                     name: 'Bu4',
+                                     data: bu4
+                                 },
+                                  {
+                                      name: 'Bu5',
+                                      data: bu5
+
+                                  }, {
+                                      name: 'Bu6',
+                                      data: bu6
+                                  }
+                            ]
+                    });
+                }
+            });
+
+
+            $.ajax({
+                url: "@Url.Action("TotalLeaveDashboardBUs", "Analytics")",
+                dataType: "json",
+                success: function (result) {
+                    var categories = result[0];
+                    var bu1 = result[1];
+                    var bu2 = result[2];
+                    var bu3 = result[3];
+                    var bu4 = result[4];
+                    var bu5 = result[5];
+                    var bu6 = result[6];
+
+                    $('#IntimeVsLateChart').highcharts({
+                        chart: {
+                            type: 'column'
+                        },
+                        title: {
+                            text: 'Leave hours vs BUs'
+                        },
+                        subtitle: {
+                            text: ''
+                        },
+                        xAxis: {
+                            categories: categories,
+                            crosshair: true
+                        },
+                        yAxis: {
+                            min: 0,
+                            title: {
+                                text: 'Hours Count'
+                            }
+                        },
+                        tooltip: {
+                            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                                '<td style="padding:0"><b>{point.y}</b></td></tr>',
+                            footerFormat: '</table>',
+                            shared: true,
+                            useHTML: true
+                        },
+                        plotOptions: {
+                            column: {
+                                pointPadding: 0.2,
+                                borderWidth: 0
+                            }
+                        },
+                        series: [
+                            {
+                                name: 'Bu1',
+                                data: bu1
+
+                            }, {
+                                name: 'Bu2',
+                                data: bu2
+                            },
+                            {
+                                name: 'Bu3',
+                                data: bu1
+
+                            }, {
+                                name: 'Bu4',
+                                data: bu2
+                            },
+                            {
+                                name: 'Bu5',
+                                data: bu1
+
+                            }, {
+                                name: 'Bu6',
+                                data: bu2
+                            }
+                        ]
+                    });
+                }
+            });
+
+            $.ajax({
+                url: "@Url.Action("OrganizationEffortGroupbyLevels", "Analytics")",
+                dataType: "json",
+                success: function (result) {
+                    var categories = result[0];
+                    var bu1 = result[1];
+                    var bu2 = result[2];
+                    var bu3 = result[3];
+                    var bu4 = result[4];
+                    var bu5 = result[5];
+                    var bu6 = result[6];
+
+
+                    $('#IntimeChartlevelEffort').highcharts({
+                        chart: {
+                            type: 'column'
+                        },
+                        title: {
+                            text: 'Working Hours vs Levels'
+                        },
+                        subtitle: {
+                            text: ''
+                        },
+                        xAxis: {
+                            categories: categories,
+                            crosshair: true
+                        },
+                        yAxis: {
+                            min: 0,
+                            title: {
+                                text: 'Hours Count'
+                            }
+                        },
+                        tooltip: {
+                            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                                '<td style="padding:0"><b>{point.y}</b></td></tr>',
+                            footerFormat: '</table>',
+                            shared: true,
+                            useHTML: true
+                        },
+                        plotOptions: {
+                            column: {
+                                pointPadding: 0.2,
+                                borderWidth: 0
+                            }
+                        },
+                        series: [
+                            {
+                                name: 'E1',
+                                data: bu1
+
+                            }, {
+                                name: 'E2',
+                                data: bu2
+                            },
+                            {
+                                name: 'M1',
+                                data: bu1
+
+                            }, {
+                                name: 'M2',
+                                data: bu2
+                            },
+                            {
+                                name: 'P1',
+                                data: bu1
+
+                            }, {
+                                name: 'P2',
+                                data: bu2
+                            }
+                        ]
+                    });
+                }
+            });
+
+
+            $.ajax({
+                url: "@Url.Action("TotalLeaveGroupbyLevels", "Analytics")",
+                dataType: "json",
+                success: function (result) {
+                    var categories = result[0];
+                    var bu1 = result[1];
+                    var bu2 = result[2];
+                    var bu3 = result[3];
+                    var bu4 = result[4];
+                    var bu5 = result[5];
+                    var bu6 = result[6];
+
+
+                    $('#IntimeVsLateChartLevelLeave').highcharts({
+                        chart: {
+                            type: 'column'
+                        },
+                        title: {
+                            text: 'Leaves vs Levels'
+                        },
+                        subtitle: {
+                            text: ''
+                        },
+                        xAxis: {
+                            categories: categories,
+                            crosshair: true
+                        },
+                        yAxis: {
+                            min: 0,
+                            title: {
+                                text: 'Hours Count'
+                            }
+                        },
+                        tooltip: {
+                            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                                '<td style="padding:0"><b>{point.y}</b></td></tr>',
+                            footerFormat: '</table>',
+                            shared: true,
+                            useHTML: true
+                        },
+                        plotOptions: {
+                            column: {
+                                pointPadding: 0.2,
+                                borderWidth: 0
+                            }
+                        },
+                        series: [
+                            {
+                                name: 'E1',
+                                data: bu1
+
+                            }, {
+                                name: 'E2',
+                                data: bu2
+                            },
+                            {
+                                name: 'M1',
+                                data: bu1
+
+                            }, {
+                                name: 'M2',
+                                data: bu2
+                            },
+                            {
+                                name: 'P1',
+                                data: bu1
+
+                            }, {
+                                name: 'P1',
+                                data: bu2
+                            }
+                        ]
+                    });
+                }
+            });
+
+
+            $.ajax({
+                url: "@Url.Action("TotalWFHEffortvsBUs", "Analytics")",
+                dataType: "json",
+                success: function (result) {
+                    var categories = result[0];
+                    var bu1 = result[1];
+                    var bu2 = result[2];
+                    var bu3 = result[3];
+                    var bu4 = result[4];
+                    var bu5 = result[5];
+                    var bu6 = result[6];
+
+
+                    $('#WhsChart').highcharts({
+                        chart: {
+                            type: 'column'
+                        },
+                        title: {
+                            text: 'Work from Home vs BUs'
+                        },
+                        subtitle: {
+                            text: ''
+                        },
+                        xAxis: {
+                            categories: categories,
+                            crosshair: true
+                        },
+                        yAxis: {
+                            min: 0,
+                            title: {
+                                text: 'Hours Count'
+                            }
+                        },
+                        tooltip: {
+                            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                                '<td style="padding:0"><b>{point.y}</b></td></tr>',
+                            footerFormat: '</table>',
+                            shared: true,
+                            useHTML: true
+                        },
+                        plotOptions: {
+                            column: {
+                                pointPadding: 0.2,
+                                borderWidth: 0
+                            }
+                        },
+                        series: [
+                            {
+                                name: 'Bu1',
+                                data: bu1
+
+                            }, {
+                                name: 'Bu2',
+                                data: bu2
+                            },
+                            {
+                                name: 'Bu3',
+                                data: bu1
+
+                            }, {
+                                name: 'Bu4',
+                                data: bu2
+                            },
+                            {
+                                name: 'Bu5',
+                                data: bu1
+
+                            }, {
+                                name: 'Bu6',
+                                data: bu2
+                            }
+                        ]
+                    });
+                }
+            });
+            $.ajax({
+                url: "@Url.Action("TotalWFHEffortvsLevels", "Analytics")",
+                dataType: "json",
+                success: function (result) {
+                    var categories = result[0];
+                    var bu1 = result[1];
+                    var bu2 = result[2];
+                    var bu3 = result[3];
+                    var bu4 = result[4];
+                    var bu5 = result[5];
+                    var bu6 = result[6];
+
+
+                    $('#WhsChartLevels').highcharts({
+                        chart: {
+                            type: 'column'
+                        },
+                        title: {
+                            text: 'Work from Home vs Levels'
+                        },
+                        subtitle: {
+                            text: ''
+                        },
+                        xAxis: {
+                            categories: categories,
+                            crosshair: true
+                        },
+                        yAxis: {
+                            min: 0,
+                            title: {
+                                text: 'Hours Count'
+                            }
+                        },
+                        tooltip: {
+                            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                                '<td style="padding:0"><b>{point.y}</b></td></tr>',
+                            footerFormat: '</table>',
+                            shared: true,
+                            useHTML: true
+                        },
+                        plotOptions: {
+                            column: {
+                                pointPadding: 0.2,
+                                borderWidth: 0
+                            }
+                        },
+                        series: [
+                            {
+                                name: 'E1',
+                                data: bu1
+
+                            }, {
+                                name: 'E2',
+                                data: bu2
+                            },
+                            {
+                                name: 'M1',
+                                data: bu1
+
+                            }, {
+                                name: 'M2',
+                                data: bu2
+                            },
+                            {
+                                name: 'P1',
+                                data: bu1
+
+                            }, {
+                                name: 'P2',
+                                data: bu2
+                            }
+                        ]
+                    });
+                }
+            });
+
+            $.ajax({
+                url: "@Url.Action("OnTimeComparisonDashboardBUs", "Analytics")",
+                dataType: "json",
+                success: function (result) {
+
+                    chart = null;
+                    chart = new Highcharts.Chart(
+                        {
+                            chart: {
+                                renderTo: "IntimeChartComparison"
+                            },
+
+                            title: {
+                                text: 'Being on Time Comparison'
+                            },
+                            yAxis: {
+                                title: {
+                                    text: 'Number of Employees'
+                                }
+                            },
+                            legend: {
+                                layout: 'vertical',
+                                align: 'right',
+                                verticalAlign: 'middle'
+                            },
+                            xAxis: {
+                                // categories: ['7:00', '7:30', '8:00', '8:30', '9:00', '9:30', '10:00', '10:30', '11:00', '11:30', '12:00', '13:00'],
+                                categories:result[0],
+                                title: {
+                                    text: 'Time'
+                                }
+                            },
+                            plotOptions: {
+
+                            },
+
+                            series: [{
+                                name: 'Pharma Analytics',
+                                data:result[1]
+                               // data: [10, 53, 5, 6, 9, 11, 13, 15, 20]
+                            }, {
+                                name: 'Chemistry Data Services',
+                                data: result[2]
+                               // data: [24, 24, 29, 29, 32, 32, 38, 40]
+                            }, {
+                                name: 'Clinical Data Services',
+                                data: result[3]
+                               // data: [14, 17, 16, 19, 25, 24, 32, 39]
+                            }, {
+                                name: 'Finance and Legal',
+                                data: result[4]
+                              //  data: [null, null, 7, 1, 1, 2, 3, 34]
+                            }
+                            ]
+
+                        });
+                }
+            });
+            
+            $.ajax({
+                url: "@Url.Action("HoursComparisonDashboardBUs", "Analytics")",
+                dataType: "json",
+            success: function (result) {
+
+            chart = new Highcharts.Chart(
+                {
+                    chart: {
+                        renderTo: "SpendingHoursChartComparison"
+                    },
+
+                    title: {
+                        text: 'Spending hours Comparison'
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Number of Employees'
+                        }
+                    },
+                    legend: {
+                        layout: 'vertical',
+                        align: 'right',
+                        verticalAlign: 'middle'
+                    },
+                    xAxis: {
+                        // categories: ['7:00', '7:30', '8:00', '8:30', '9:00', '9:30', '10:00', '10:30', '11:00', '11:30', '12:00', '13:00'],
+                        categories: result[0],
+                        title: {
+                            text: 'Spending hours'
+                        }
+                    },
+                    plotOptions: {
+
+                    },
+
+                    series: [{
+                        name: 'Pharma Analytics',
+                        data: result[1]
+                    }, {
+                        name: 'Chemistry Data Services',
+                        data: result[2]
+                    }, {
+                        name: 'Clinical Data Services',
+                        data: result[3]
+                    }, {
+                        name: 'Finance and Legal',
+                        data: result[4]
+                    }
+                    ]
+
+                });
+        }
+        });
+
+
+
+            $(document).on("click", "#filter-btn", function () {
+                $("#loadingDiv").show();
+                $(".search-controls-box-btn").click();
+                $("#loadingDiv").delay().hide();
+            });
+
+        });
+    </script>
+}
+

@@ -1,0 +1,152 @@
+﻿@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro);
+
+body {
+    background: #f4f4f2;
+    font-family: "Source Sans Pro", sans-serif;
+    padding-top: 60px;
+    margin-bottom: 30px;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 30px;
+    color: #fff;
+    background-color: #17375E;
+    z-index: 10000;
+}
+
+.panel-heading {
+    text-transform: uppercase;
+}
+
+.panel-body {
+    min-height: 150px;
+}
+
+.productBtn {
+    margin: 10px;
+    width: 160px;
+}
+
+.fullTable {
+    padding-top: 5px;
+    overflow-y: scroll !important;
+}
+
+.numColumn {
+    text-align: right;
+}
+
+.shadow {
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
+}
+
+#attendants {
+    font-size: 1000%;
+    text-align: center;
+    border-bottom: 3px solid #eee;
+}
+
+#totalEmployees {
+    font-size: 500%;
+    text-align: center;
+}
+
+.card-primary {
+    background-color: #0275d8 !important;
+    color: white !important;
+}
+
+.card-warning {
+    background-color: #f0ad4e !important;
+    color: white !important;
+}
+
+.card-danger {
+    background-color: #d9534f !important;
+    color: white !important;
+}
+
+.card-info {
+    background-color: #5bc0de !important;
+    color: white !important;
+}
+
+.card-default {
+    background-color: #2BBBAD !important;
+    color: white !important;
+}
+
+.card-success {
+    background-color: #5cb85c !important;
+    color: white !important;
+}
+
+.card-aqua {
+    background-color: #00c0ef !important;
+}
+
+.card-wood {
+    background-color: #ab7d44 !important;
+}
+
+.card-teal {
+    background-color: #39cccc !important;
+}
+
+.card-grass {
+    background-color: #a1c436 !important;
+}
+
+#betweenTime {
+    padding: 3px;
+}
+
+.panel a {
+    display: none !important;
+}
+
+#right {
+    float: right;
+    color: white;
+    padding-top: 13px;
+    font-size: 19px;
+    padding-left: 50px;
+}
+
+.meta {
+    position: relative;
+    text-align: center;
+    padding: 3px 0;
+    color: #fff;
+    color: rgba(255, 255, 255, 0.8);
+    display: block;
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+}
+
+.number {
+    font-size: 45px;
+    color: white;
+    padding-left: 10px;
+    font-weight:600;
+}
+
+.description {
+    font-size: 20px;
+    color: white;
+    padding-left: 10px;
+}
+
+.summary-image {
+    position: absolute;
+    top: auto;    
+    bottom: 40px;
+    right: 25px;
+    z-index: 0;
+    font-size: 70px;
+    color: rgba(0, 0, 0, 0.15);
+}

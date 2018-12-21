@@ -1,0 +1,705 @@
+﻿
+@{
+    ViewBag.Title = "My employee Dashboard";
+}
+@section head{
+    <style>
+        #reportrange {
+            background: #fff;
+            cursor: pointer;
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            width: 100%;
+        }
+
+            #reportrange b {
+                margin-top: 8px;
+                float: right;
+            }
+
+
+
+            
+    </style>
+}
+
+@section heading{
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            @ViewBag.Title
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">@ViewBag.Title</li>
+        </ol>
+    </section>
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-info">
+            <div class="box-header">
+                <i class="ion ion-funnel"></i>
+                <h3 class="box-title">Filters </h3>
+                <div class="pull-right box-tools">
+                    <button class="btn btn-info btn-xs mr-10" data-widget="collapse" data-toggle="tooltip" title="Click for filter the data"><i class="ion ion-funnel"></i></button>
+                    <button class="btn btn-info btn-xs search-controls-box-btn pull-right" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse"><i class="fa fa-minus"></i></button>
+                </div><!-- /. tools -->
+            </div>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-3 col-sm-6 col-lg-3 col-xs-12">
+
+
+                        @if (@ViewBag.Names != null)
+                        {
+                            @Html.DropDownList("ddlEmployee", new SelectList(@ViewBag.Names), "Select Employee", new { @class = "form-control" })
+                        }
+                        else
+                        {
+                            @Html.DropDownList("ddlEmployee", new SelectList(""), "Select Employee", new { @class = "form-control" })
+                        }
+
+                        @*<option value="" selected>sateesh ganaparapu</option>
+                <option value="">venu parsaram</option>
+                <option value="">ramu ankam</option>*@
+
+
+
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-lg-3 col-xs-12">
+                        <div id="reportrange" class="pull-right form-control">
+                            <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+                            <span></span> <b class="caret"></b>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-lg-3 col-xs-12">
+                        <input type="hidden" name="date_range" id="date_range" />
+                        <button type="button" class="btn btn-success" id="GetReportDatas">Get Report</button>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /.box-body-->
+
+        </div>
+    </div>
+</div>
+<!-- Info boxes -->
+@*<div class="row">
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+            <span class="info-box-icon bg-aqua"><i class="ion ion-android-people"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Total Attended Days</span>
+                <span class="info-box-number">500</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+            <span class="info-box-icon bg-red"><i class="ion ion-android-people"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Total Leaves</span>
+                <span class="info-box-number">60</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+            <span class="info-box-icon bg-yellow"><i class="ion ion-android-people"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Total WFH Days</span>
+                <span class="info-box-number">60</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+            <span class="info-box-icon bg-orange"><i class="ion ion-android-people"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Total 2 hours permission requests</span>
+                <span class="info-box-number">60</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+</div>*@
+<!-- /.row -->
+<div class="row" id="AreaGrpah">
+    
+    <div class="col-md-6">
+        <div class="box box-info">
+            <div class="box-header">
+                <i class="fa fa-hourglass-start"></i>
+                <h3 class="box-title">Spending Hours Trend</h3>
+                <div class="pull-right box-tools">
+                    <button class="btn btn-info btn-xs" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse"><i class="fa fa-minus"></i></button>
+                </div><!-- /. tools -->
+            </div>
+            <div class="box-body">
+                <div id="SpendHourChart"></div>
+            </div>
+            <!-- /.box-body-->
+
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="box box-primary">
+            <div class="box-header">
+                <i class="fa fa fa-hourglass"></i>
+                <h3 class="box-title">Being on Time Trend</h3>
+                <div class="pull-right box-tools">
+                    <button class="btn btn-info btn-xs" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse"><i class="fa fa-minus"></i></button>
+                </div><!-- /. tools -->
+            </div>
+            <div class="box-body">
+                <div id="dashboard_trend"></div>
+            </div>
+            
+
+        </div>
+    </div>
+</div>
+
+<!-- /.row -->
+<div class="row" id="DifferentiateGraph">
+    
+    <div class="col-md-12">
+        <div class="box box-info">
+            <div class="box-header">
+                <i class="fa fa-hourglass-start"></i>
+                <h3 class="box-title">Spending Hours Trend </h3>
+                <div class="pull-right box-tools">
+                    <button class="btn btn-info btn-xs" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse"><i class="fa fa-minus"></i></button>
+                </div><!-- /. tools -->
+            </div>
+            <div class="box-body">
+                <div id="SpendHourChartCompare"></div>
+            </div>
+            <!-- /.box-body-->
+
+        </div>
+    </div>
+</div>
+
+@section scripts{
+
+
+    <script>
+        $(document).ready(function () {
+           // $("#date_range").val(picker.startDate.format('YYYY-MM-DD') + ":" + picker.endDate.format('YYYY-MM-DD'));
+            $("#GetReportDatas").click(function () {
+
+
+                $.ajax({
+                    url: '@Url.Action("MyEmployeeDashboardSpendingHours", "Analytics")',
+                    data: { Name: $("#ddlEmployee").val(), Date: $("#date_range").val() },
+                    type: 'POST',
+                    success: function (data) {
+                        drawHoursChart(data)
+                        $('#AreaGrpah').show();
+                        $('#DifferentiateGraph').show();
+
+
+
+                       // $("#divContent").html(data);
+                    },
+                    error: function () {
+                        alert("Please Select Employee and Date");
+                    }
+                });
+
+
+                $.ajax({
+                    url: '@Url.Action("MyEmployeeDashboardBeingOntime", "Analytics")',
+                    data: { Name: $("#ddlEmployee").val(), Date: $("#date_range").val() },
+                    type: 'POST',
+                    success: function (data) {
+                        drawFirstPunChart(data)
+                        $('#AreaGrpah').show();
+                        $('#DifferentiateGraph').show();
+
+
+
+                        // $("#divContent").html(data);
+                    },
+                    //error: function () {
+                    //    alert("Please Select Employee and Date");
+                    //}
+                });
+
+                $.ajax({
+                    url: '@Url.Action("MyEmployeeDashboardSpendingHoursEmployeeBUOrganization", "Analytics")',
+                    data: { Name: $("#ddlEmployee").val(), Date: $("#date_range").val() },
+                    type: 'POST',
+                    success: function (data) {
+                        drawAllKindsofdata(data)
+                        $('#AreaGrpah').show();
+                        $('#DifferentiateGraph').show();
+
+
+
+                        // $("#divContent").html(data);
+                    },
+                    //error: function () {
+                    //    alert("Please Select Employee and Date");
+                    //}
+                });
+
+
+            });
+
+            $('#reportrange').on('apply.daterangepicker', function(ev, picker) {
+
+                $("#date_range").val(picker.startDate.format('YYYY-MM-DD') + ":" + picker.endDate.format('YYYY-MM-DD'));
+            });
+
+           
+        });
+        $(function () {
+            $('#AreaGrpah').hide();
+            $('#DifferentiateGraph').hide();
+            Highcharts.setOptions({
+                global: {
+                    useUTC: false
+                }
+            });
+            var start = moment().subtract(29, 'days');
+            var end = moment();
+
+            function cb(start, end) {
+                $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            }
+
+
+            $("#date_range").val(start.format('YYYY-MM-DD') + ":" + end.format('YYYY-MM-DD'));
+
+
+
+            $('#reportrange').daterangepicker({
+                startDate: start,
+                endDate: end,
+                ranges: {
+                    'Today': [moment(), moment()],
+                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                }
+            }, cb);
+
+            cb(start, end);
+
+            $.ajax({
+                url: "@Url.Action("MyEmployeeDashboardPie", "Analytics")",
+                dataType: "json",
+                success: function (result) {
+                    //var result = [
+                    //    { "time_cat": "Paid Leave", "emp_num": "10" },
+                    //    { "time_cat": "On Duty", "emp_num": "20" },
+                    //    { "time_cat": "Compensatory", "emp_num": "10" },
+                    //    { "time_cat": "Paternity Leave", "emp_num": "0" },
+                    //     { "time_cat": "Optional Holiday", "emp_num": "1" }
+
+                    //];
+                    var obj = result;
+
+                    var data = [];
+                    for (var i = 0; i < obj.length; i++) {
+                        data.push([obj[i].time_cat, parseInt(obj[i].emp_num)]);
+                    }
+                    $('#IntimeChart').highcharts({
+                        chart: {
+                            plotBackgroundColor: null,
+                            plotBorderWidth: null,
+                            plotShadow: false
+                        },
+                        colors: ['#a1c436', '#5fb4ef', '#f2bc02', '#f23a02', '#FFF263', '#50B432', '#ED561B', '#6AF9C4'],
+                        title: {
+                            text: ''
+                        },
+                        tooltip: {
+                            //pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                        },
+                        plotOptions: {
+                            pie: {
+                                allowPointSelect: true,
+                                cursor: 'pointer',
+                                dataLabels: {
+                                    enabled: true
+                                },
+                                showInLegend: true
+                            }
+                        },
+                        series: [{
+                            type: 'pie',
+                            name: 'Days Count',
+                            data: data
+                        }]
+                    });
+                }
+            });
+
+
+            @*$.ajax({
+                url: "@Url.Action("MyEmployeeDashboardBeingOntime", "Analytics")",
+                dataType: "json",
+                success: function (result) {
+                    //result = [
+                    //    { "att_time": "7:00", "attendance": 4 },
+                    //    { "att_time": "7:30", "attendance": 10 },
+                    //    { "att_time": "8:00", "attendance": 94 },
+                    //    { "att_time": "8:30", "attendance": 272 },
+                    //    { "att_time": "9:00", "attendance": 320 },
+                    //    { "att_time": "9:30", "attendance": 10 },
+                    //    { "att_time": "10:00", "attendance": 50 },
+                    //    { "att_time": "10:30", "attendance": 2 },
+                    //    { "att_time": "11:00", "attendance": 3 },
+                    //    { "att_time": "11:30", "attendance": 7 },
+                    //    { "att_time": "12:00", "attendance": 1 },
+                    //    { "att_time": "12:30", "attendance": 2 },
+                    //    { "att_time": "13:00", "attendance": 6 }];
+                    //console.log(result);
+                    var obj = result;
+                    var data = [];
+                    // console.log(obj.length-1);
+                    for (var i = 0; i < obj.length; i++) {
+                        if (obj[i] != undefined) {
+                            var res = obj[i].att_time.split(":");
+                            var d = new Date();
+                            var time = new Date(d.getFullYear(), d.getMonth(), d.getDate(), res[0], res[1]).getTime();
+                            data.push([time, parseInt(obj[i].attendance)]);
+                        }
+                    }
+
+                    chart = new Highcharts.Chart({
+                        chart: {
+                            renderTo: 'dashboard_trend',
+                            zoomType: 'x',
+                            defaultSeriesType: 'areaspline'
+                        },
+                        colors: ['#8fb313'],
+
+                        title: {
+                            text: ''
+                        },
+                        xAxis: {
+                            type: 'datetime',
+                            tickInterval: 3600 * 1000 * 2,
+
+                        },
+                        yAxis: {
+                            minTickInterval: 1,
+                            title: {
+                                text: 'Attendance Trend'
+                            },
+                            min: 0
+                        },
+                        plotOptions: {
+                            area: {
+                                marker: {
+                                    radius: 2,
+                                    lineColor: '#666666',
+                                    lineWidth: 1
+                                }
+                            }
+                        },
+                        legend: {
+                            enabled: true
+                        },
+                        exporting: {
+                            enabled: false
+                        },
+                        series: [{
+                            name: 'Attendance Trend being on Time',
+                            lineWidth: 2,
+                            data: data
+                        }]
+                    });
+                }
+            });*@
+
+
+
+
+
+            @*$.ajax({
+                url: "@Url.Action("MyEmployeeDashboardSpendingHoursEmployeeBUOrganization", "Analytics")",
+                dataType: "json",
+            success: function (result) {
+
+
+                // spending hours compare chart //
+                chart = new Highcharts.Chart({
+                    chart: {
+                        renderTo: "SpendHourChartCompare",
+                        type: 'line'
+                    },
+                    title: {
+                        text: 'Monthly Average Hours'
+                    },
+                    subtitle: {
+                        // text: 'Source: WorldClimate.com'
+                    },
+                    xAxis: {
+                        // categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                        categories: result[0]
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Hours'
+                        }
+                    },
+                    plotOptions: {
+                        line: {
+                            dataLabels: {
+                                enabled: true
+                            },
+                            enableMouseTracking: false
+                        }
+                    },
+                    series: [
+                        {
+                            name: 'Selected user',
+                            // data: [7.0, 6.9, 9.5, 8.5, 10.4, 9.5, 9.2, 8.5, 9.3, 7.3, 6.9, 9.6]
+                            data: result[1]
+                        },
+                        {
+                            name: 'BU',
+                            // data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 12.6, 12.2, 10.3, 6.6, 4.8]
+                            data: result[2]
+                        },
+                         {
+                             name: 'Organization',
+                             //  data: [7.9, 8.2, 5.7, 8.5, 7.9, 8.2, 17.0, 9.6, 10.2, 9.3, 8.6, 10.8]
+                             data: result[3]
+                         }
+                    ]
+                });
+            }
+        });*@
+
+
+
+
+
+            $(document).on("click", "#filter-btn", function () {
+                $("#loadingDiv").show();
+                $(".search-controls-box-btn").click();
+                $("#loadingDiv").delay().hide();
+            });
+
+        });
+
+        function drawHoursChart(result){
+            var obj = result;
+            var data = [];
+            var YAxisdata = [];
+            for (var i = 0; i < obj.length; i++) {
+
+                var res = obj[i].att_time.split("-");
+                YAxisdata.push(res[0]+"-"+res[1]);
+            }
+
+            for (var i = 0; i < obj.length; i++) {
+                if (obj[i] != undefined) {
+                    var res = obj[i].att_time.split("-");
+                    var d = new Date();
+                    // var time = new Date(d.getFullYear(), d.getMonth(), d.getDate(), res[0], res[1]).getTime();
+                    var time = res[0] + "-" + res[1];
+                    var attendence = obj[i].attendance.split(":");
+                    var timedata = attendence[0] + "." + attendence[1];
+                    data.push([time, parseFloat(timedata)]);
+                }
+            }
+
+            chart = new Highcharts.Chart({
+                chart: {
+                    renderTo: 'SpendHourChart',
+                    zoomType: 'x',
+                    defaultSeriesType: 'areaspline'
+                },
+                colors: ['#028402'],
+
+                title: {
+                    text: ''
+                },
+                xAxis: {
+                    //type: 'datetime',
+                    //tickInterval: 3600 * 1000 * 2,
+                    categories:YAxisdata
+
+                },
+                yAxis: {
+                    minTickInterval: 1,
+                    title: {
+                        text: 'Spending Hours Trend'
+                    },
+                    min: 0
+                },
+                plotOptions: {
+                    area: {
+                        marker: {
+                            radius: 2,
+                            lineColor: '#666666',
+                            lineWidth: 1
+                        }
+                    }
+                },
+                legend: {
+                    enabled: true
+                },
+                exporting: {
+                    enabled: false
+                },
+                series: [{
+                    name: 'Speding Hours Trend',
+                    lineWidth: 2,
+                    data: data
+                }]
+            });
+
+
+        }
+
+        function drawFirstPunChart(result) {
+            var obj = result;
+            var data = [];
+            // console.log(obj.length-1);
+            var YAxisdata = [];
+            for (var i = 0; i < obj.length; i++) {
+
+                var res = obj[i].att_time.split("-");
+                YAxisdata.push(res[0] + "-" + res[1]);
+            }
+
+            for (var i = 0; i < obj.length; i++) {
+                if (obj[i] != undefined) {
+                    var res = obj[i].att_time.split("-");
+                    var d = new Date();
+                    // var time = new Date(d.getFullYear(), d.getMonth(), d.getDate(), res[0], res[1]).getTime();
+                    var time = res[0] + "-" + res[1];
+                    var attendence = obj[i].attendance.split(":");
+                    var timedata = attendence[0] + "." + attendence[1];
+                    data.push([time, parseFloat(timedata)]);
+                }
+            }
+
+            chart = new Highcharts.Chart({
+                chart: {
+                    renderTo: 'dashboard_trend',
+                    zoomType: 'x',
+                    defaultSeriesType: 'areaspline'
+                },
+                colors: ['#33B2FF'],
+
+                title: {
+                    text: ''
+                },
+                xAxis: {
+                    //type: 'datetime',
+                    //tickInterval: 3600 * 1000 * 2,
+                    categories: YAxisdata
+
+
+                },
+                yAxis: {
+                    minTickInterval: 1,
+                    title: {
+                        text: 'Attendance Trend'
+                    },
+                    min: 0
+                },
+                plotOptions: {
+                    area: {
+                        marker: {
+                            radius: 2,
+                            lineColor: '#666666',
+                            lineWidth: 1
+                        }
+                    }
+                },
+                legend: {
+                    enabled: true
+                },
+                exporting: {
+                    enabled: false
+                },
+                series: [{
+                    name: 'First Punch On Time',
+                    lineWidth: 2,
+                    data: data
+                }]
+            });
+
+        }
+
+        function drawAllKindsofdata(result) {
+           
+            chart = new Highcharts.Chart({
+                chart: {
+                    renderTo: "SpendHourChartCompare",
+                    type: 'line'
+                },
+                title: {
+                    text: "",
+                },
+                subtitle: {
+                    // text: 'Source: WorldClimate.com'
+                },
+                xAxis: {
+                    // categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                    categories: result[0]
+                },
+                yAxis: {
+                    title: {
+                        text: 'Hours'
+                    }
+                },
+                plotOptions: {
+                    line: {
+                        dataLabels: {
+                            enabled: true
+                        },
+                        enableMouseTracking: false
+                    }
+                },
+                series: [
+                    {
+                        name: 'Total Hours',
+                        // data: [7.0, 6.9, 9.5, 8.5, 10.4, 9.5, 9.2, 8.5, 9.3, 7.3, 6.9, 9.6]
+                        data: result[1]
+                    },
+                    {
+                        name: 'First Punch',
+                        // data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 12.6, 12.2, 10.3, 6.6, 4.8]
+                        data: result[2]
+                    },
+                     {
+                         name: 'Last Punch',
+                         //  data: [7.9, 8.2, 5.7, 8.5, 7.9, 8.2, 17.0, 9.6, 10.2, 9.3, 8.6, 10.8]
+                         data: result[3]
+                     }
+                ]
+            });
+
+        }
+
+
+    </script>
+}
+

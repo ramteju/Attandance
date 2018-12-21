@@ -1,0 +1,332 @@
+﻿
+@{
+    ViewBag.Title = "Leave Dashboard";
+}
+@section head{
+    <style>
+        #reportrange {
+            background: #fff;
+            cursor: pointer;
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            width: 100%;
+        }
+
+            #reportrange b {
+                margin-top: 8px;
+                float: right;
+            }
+    </style>
+}
+
+@section heading{
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Leave Dashboard
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Leave Dashboard</li>
+        </ol>
+    </section>
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-info">
+            <div class="box-header">
+                <i class="ion ion-funnel"></i>
+                <h3 class="box-title">Filters </h3>
+                <div class="pull-right box-tools">
+                    <button class="btn btn-info btn-xs mr-10" data-widget="collapse" data-toggle="tooltip" title="Click for filter the data"><i class="ion ion-funnel"></i></button>
+                    <button class="btn btn-info btn-xs search-controls-box-btn" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse"><i class="fa fa-minus"></i></button>
+                </div><!-- /. tools -->
+            </div>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-3 col-sm-6 col-lg-3 col-xs-12">
+                        <select class="form-control select2" multiple data-placeholder="Select BU">
+                            <option value="">Select BU</option>
+                            <option value="">Select BU1</option>
+                            <option value="">Select BU2</option>
+                            <option value="">Select BU3</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-lg-3 col-xs-12">
+                        <select class="form-control select2" multiple>
+                            <option value="">Select Band Level</option>
+                            <option value="">E1</option>
+                            <option value="">L1</option>
+                            <option value="">G1</option>
+                            <option value="">G2</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-lg-3 col-xs-12">
+                        <select class="form-control select2" multiple>
+                            <option value="">Select Shift</option>
+                            <option value="">Paid Leave</option>
+                            <option value="">Onduty</option>
+                            <option value="">Optional</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-lg-3 col-xs-12">
+                        <div id="reportrange" class="pull-right form-control">
+                            <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+                            <span></span> <b class="caret"></b>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.box-body-->
+
+        </div>
+    </div>
+</div>
+<!-- Info boxes -->
+<div class="row">
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+            <span class="info-box-icon bg-aqua"><i class="ion ion-android-people"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Total Leaves</span>
+                <span class="info-box-number">@ViewBag.Id</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+            <span class="info-box-icon bg-green"><i class="fa fa-check-circle"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Total Planned Leaves</span>
+                <span class="info-box-number">659</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <!-- fix for small devices only -->
+    <div class="clearfix visible-sm-block"></div>
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+            <span class="info-box-icon bg-red"><i class="ion ion-android-contacts"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Total Unplanned Leaves</span>
+                <span class="info-box-number">20</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box">
+            <span class="info-box-icon bg-yellow"><i class="fa fa-question-circle"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Total Compensatory Leaves</span>
+                <span class="info-box-number">50</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+</div>
+<!-- /.row -->
+<div class="row">
+    <div class="col-md-6">
+        <div class="box box-info">
+            <div class="box-header">
+                <i class="fa fa-clock-o"></i>
+                <h3 class="box-title">Leave Statistics</h3>
+                <div class="pull-right box-tools">
+                    <button class="btn btn-info btn-xs" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse"><i class="fa fa-minus"></i></button>
+                </div><!-- /. tools -->
+            </div>
+            <div class="box-body">
+                <div id="LeaveChart"></div>
+            </div>
+            <!-- /.box-body-->
+
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="box box-primary">
+            <div class="box-header">
+                <i class="fa fa-clock-o"></i>
+                <h3 class="box-title">Planned Vs Un Planned</h3>
+                <div class="pull-right box-tools">
+                    <button class="btn btn-info btn-xs" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse"><i class="fa fa-minus"></i></button>
+                </div><!-- /. tools -->
+            </div>
+            <div class="box-body">
+                <div id="LeavePlannedVsUnplannedChart"></div>
+            </div>
+            <!-- /.box-body-->
+
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $(function () {
+
+            var start = moment().subtract(29, 'days');
+            var end = moment();
+
+            function cb(start, end) {
+                $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            }
+
+            $('#reportrange').daterangepicker({
+                startDate: start,
+                endDate: end,
+                ranges: {
+                    'Today': [moment(), moment()],
+                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                }
+            }, cb);
+
+            cb(start, end);
+
+            $.ajax({
+                url: "@Url.Action("DashboardLeaveStatistics", "Home")",
+                dataType: "json",
+                success: function (result) {
+                    console.log(result);
+                    var obj = result;
+                   // var result = [{ "time_cat": "Paid Leave", "emp_num": "100" }, { "time_cat": "On duty", "emp_num": "29.16" }, { "time_cat": "Compensatory", "emp_num": "24.10" }, { "time_cat": "Paternity Leave", "emp_num": "14.79" }, { "time_cat": "Optional Holiday", "emp_num": "5.03" }];
+                    var data = [];
+                    for (var i = 0; i < obj.length; i++) {
+                        data.push([obj[i].time_cat, parseInt(obj[i].emp_num)]);
+                    }
+                    $('#LeaveChart').highcharts({
+                        chart: {
+                            plotBackgroundColor: null,
+                            plotBorderWidth: null,
+                            plotShadow: false
+                        },
+                        colors: ['#a1c436', '#5fb4ef', '#f2bc02', '#f23a02', '#FFF263', '#50B432', '#ED561B', '#6AF9C4'],
+                        title: {
+                            text: ''
+                        },
+                        tooltip: {
+                            //pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                        },
+                        plotOptions: {
+                            pie: {
+                                allowPointSelect: true,
+                                cursor: 'pointer',
+                                dataLabels: {
+                                    enabled: true
+                                },
+                                showInLegend: true
+                            }
+                        },
+                        series: [{
+                            type: 'pie',
+                            name: 'Leave Type Statistics',
+                            data: data
+                        }]
+                    });
+                }
+            });
+
+
+            $.ajax({
+                url: "@Url.Action("PlannedvsUnlpanned", "Home")",
+                dataType: "json",
+                success: function (result) {
+                    console.log(result);
+
+                    var categories = result[0];
+                    var planned = result[1];
+                    var unPlanned = result[2];
+
+                    //var categories = [
+                    //            'Jan',
+                    //            'Feb',
+                    //            'Mar',
+                    //            'Apr',
+                    //            'May',
+                    //            'Jun',
+                    //            'Jul',
+                    //            'Aug',
+                    //            'Sep',
+                    //            'Oct',
+                    //            'Nov',
+                    //            'Dec'
+                    //];
+                    //var planned = [49, 71, 106, 129, 144, 176, 135, 148, 216, 194, 95, 54];
+                    //var unPlanned = [83, 78, 98, 93, 106, 84, 105, 104, 91, 83, 106, 92];
+
+                    $('#LeavePlannedVsUnplannedChart').highcharts({
+                        chart: {
+                            type: 'column'
+                        },
+                        title: {
+                            text: 'Monthly Leaves (Planned Vs Unplanned)'
+                        },
+                        subtitle: {
+                            text: ''
+                        },
+                        xAxis: {
+                            categories: categories,
+                            crosshair: true
+                        },
+                        yAxis: {
+                            min: 0,
+                            title: {
+                                text: 'Leave Days'
+                            }
+                        },
+                        tooltip: {
+                            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                                '<td style="padding:0"><b>{point.y} Day(s)</b></td></tr>',
+                            footerFormat: '</table>',
+                            shared: true,
+                            useHTML: true
+                        },
+                        plotOptions: {
+                            column: {
+                                pointPadding: 0.2,
+                                borderWidth: 0
+                            }
+                        },
+                        series: [{
+                            name: 'Planed',
+                            data: planned
+
+                        }, {
+                            name: 'Unplaned',
+                            data: unPlanned
+                        }
+                        ]
+                    });
+                }
+            });
+
+
+
+
+
+            $(document).on("click", "#filter-btn", function () {
+                $("#loadingDiv").show();
+                $(".search-controls-box-btn").click();
+                $("#loadingDiv").delay().hide();
+            });
+
+        });
+    </script>
+}
+
